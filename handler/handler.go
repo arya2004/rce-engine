@@ -74,17 +74,33 @@ func buildTask(er ExecRequest) (input.Task, error) {
 	case "":
 		return input.Task{}, errors.Errorf("require: language")
 	case "python":
-		image = "python:3"
+		image = "python:3.12-slim"
 		filename = "script.py"
 		run = "python script.py > $TORK_OUTPUT"
 	case "go":
-		image = "golang:1.19"
+		image = "golang:1.22-alpine"
 		filename = "main.go"
 		run = "go run main.go > $TORK_OUTPUT"
 	case "bash":
-		image = "alpine:3.18.3"
+		image = "alpine:3.20"
 		filename = "script"
 		run = "sh ./script > $TORK_OUTPUT"
+	case "javascript":
+		image = "node:20-alpine"
+		filename = "script.js"
+		run = "node script.js > $TORK_OUTPUT"
+	case "c++":
+		image = "gcc:14"
+		filename = "main.cpp"
+		run = "g++ -o main main.cpp && ./main > $TORK_OUTPUT"
+	case "ruby":
+		image = "ruby:3.3-slim"
+		filename = "script.rb"
+		run = "ruby script.rb > $TORK_OUTPUT"
+	case "rust":
+		image = "rust:1.79"
+		filename = "main.rs"
+		run = "rustc main.rs && ./main > $TORK_OUTPUT"
 	default:
 		return input.Task{}, errors.Errorf("unknown language: %s", er.Language)
 	}
