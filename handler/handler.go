@@ -89,6 +89,18 @@ func buildTask(er ExecRequest) (input.Task, error) {
 		image = "node:18-alpine"
 		filename = "script.js"
 		run = "node script.js > $TORK_OUTPUT"
+	case "c++":
+		image = "gcc:latest"
+		filename = "main.cpp"
+		run = "g++ -o main main.cpp && ./main > $TORK_OUTPUT"
+	case "ruby":
+		image = "ruby:latest"
+		filename = "script.rb"
+		run = "ruby script.rb > $TORK_OUTPUT"
+	case "rust":
+		image = "rust:latest"
+		filename = "main.rs"
+		run = "rustc main.rs && ./main > $TORK_OUTPUT"
 	default:
 		return input.Task{}, errors.Errorf("unknown language: %s", er.Language)
 	}
