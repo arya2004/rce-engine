@@ -85,6 +85,10 @@ func buildTask(er ExecRequest) (input.Task, error) {
 		image = "alpine:3.18.3"
 		filename = "script"
 		run = "sh ./script > $TORK_OUTPUT"
+	case "javascript":
+		image = "node:18-alpine"
+		filename = "script.js"
+		run = "node script.js > $TORK_OUTPUT"
 	default:
 		return input.Task{}, errors.Errorf("unknown language: %s", er.Language)
 	}
